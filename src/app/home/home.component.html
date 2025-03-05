@@ -4,18 +4,28 @@
     <p>Your personal health companion</p>
   </header>
 
-  <section class="features-section">
-    <div class="feature-card">
-      <h2>Track Your Health</h2>
-      <p>Monitor your daily activities and health metrics</p>
-    </div>
-    <div class="feature-card">
-      <h2>Get Insights</h2>
-      <p>Receive personalized health recommendations</p>
-    </div>
-    <div class="feature-card">
-      <h2>Stay Motivated</h2>
-      <p>Set goals and track your progress</p>
+  <section class="chat-section">
+    <div class="chat-container">
+      <div class="chat-messages" #chatMessages>
+        <div *ngFor="let message of messages" 
+             class="message" 
+             [class.bot]="message.isBot"
+             [class.question]="message.isQuestion"
+             [class.answer]="!message.isBot && !message.isQuestion">
+          {{ message.text }}
+        </div>
+        <app-loading-dots *ngIf="isLoading"></app-loading-dots>
+      </div>
+      <div class="chat-input">
+        <input 
+          type="text" 
+          [(ngModel)]="userMessage" 
+          (keyup.enter)="sendMessage()"
+          placeholder="Type 'yes' or 'no' to answer..."
+          [disabled]="isLoading || isAssessmentComplete"
+        >
+        <button (click)="sendMessage()" [disabled]="isLoading || isAssessmentComplete">Send</button>
+      </div>
     </div>
   </section>
 </div> 
